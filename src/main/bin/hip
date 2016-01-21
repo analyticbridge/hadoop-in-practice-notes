@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Script to launch examples from the book "Hadoop in Practice".
+
+home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd -P )"
+
+function print_usage(){
+  echo "Usage: $(basename $0) <class> ARGS"
+  echo "  <class>   the fully-qualified classname of the example you want to run"
+  echo "  ARGS      any arguments specific to the example"
+}
+
+if [ "$#" == "0" ]; then
+    print_usage
+    exit 1
+fi
+
+nolib=false
+
+if [ "$1" == "--nolib" ]; then
+  nolib=true
+  shift
+fi
+
+CLASS=$1
+shift
+
+LIBJARS=""
+for file in `find ${home}/lib -type f | grep -v avro-tools`; do
+  LIBJARS=${LIBJARS},$file
+done
+
+LIBJARS=${home}/lib/jopt-simple-4.5.jar${LIBJARS}
+
+HIP_JAR=${home}/`ls -1 | grep "hip-[0-9\.]+\.jar"`
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  HIP_JAR=`find -E ${home} -type f -regex '.*hip\-[0-9\.]+.jar'`
+else
+  HIP_JAR=`find ${home} -maxdepth 1 -type f -regex '.*hip\-[0-9\.]+.jar'`
+fi
+
+if [ ! -f ${HIP_JAR} ]; then
+  echo "Unable to locate the HiP JAR - only OSX and GNU Linux systems are supported."
+  exit 2
+fi
+
+export HADOOP_CLASSPATH=${HIP_JAR}:`echo ${LIBJARS} | sed s/,/:/g`
+
+if [ "$nolib" = true ] ; then
+  hadoop ${CLASS} "$@"
+else
+  hadoop ${CLASS} -libjars ${LIBJARS} "$@"
+fi

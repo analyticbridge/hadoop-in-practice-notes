@@ -1,0 +1,128 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>package</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <fileSets>
+        <fileSet>
+            <includes>
+                <include>README*</include>
+                <include>LICENSE*</include>
+            </includes>
+        </fileSet>
+        <!-- Scripts -->
+        <fileSet>
+            <directory>src/main/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>0777</fileMode>
+            <directoryMode>0777</directoryMode>
+        </fileSet>
+        <!-- R Scripts -->
+        <fileSet>
+            <directory>src/main/R</directory>
+            <outputDirectory>/R</outputDirectory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+            <fileMode>0777</fileMode>
+            <directoryMode>0777</directoryMode>
+        </fileSet>
+        <!-- Configuration files -->
+        <fileSet>
+            <directory>src/main/conf</directory>
+            <outputDirectory>/conf</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <!-- Test data -->
+        <fileSet>
+            <directory>test-data</directory>
+            <outputDirectory>/test-data</outputDirectory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <!-- Oozie data -->
+        <fileSet>
+            <directory>src/main/oozie</directory>
+            <outputDirectory>/oozie</outputDirectory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <!-- Schema's -->
+        <fileSet>
+            <directory>src/main/java/hip/ch3/avro/</directory>
+            <outputDirectory>/schema</outputDirectory>
+            <includes>
+                <include>*.avsc</include>
+            </includes>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/java/hip/ch3/proto/</directory>
+            <outputDirectory>/schema</outputDirectory>
+            <includes>
+                <include>*.proto</include>
+            </includes>
+            <fileMode>755</fileMode>
+        </fileSet>
+        <!-- Our JAR's -->
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        <!-- 3rd-party JAR's -->
+        <fileSet>
+            <directory>target/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>avro-1.7.4*.jar</include>
+                <include>avro-mapred-1.7.4*.jar</include>
+                <include>avro-tools*.jar</include>
+                <include>commons*.jar</include>
+                <include>elephant-bird*.jar</include>
+                <include>fastutil*.jar</include>
+                <include>giraph*.jar</include>
+                <include>guava*.jar</include>
+                <include>geoip*.jar</include>
+                <include>guice*.jar</include>
+                <include>hbase*.jar</include>
+                <include>hll*.jar</include>
+                <include>htuple*.jar</include>
+                <include>jopt*.jar</include>
+                <include>json-simple*.jar</include>
+                <include>libthrift*.jar</include>
+                <include>mahout*.jar</include>
+                <include>mysql*.jar</include>
+                <include>opencsv*.jar</include>
+                <include>parquet*.jar</include>
+                <include>slf4j*.jar</include>
+                <include>snappy*.jar</include>
+            </includes>
+        </fileSet>
+        <!-- Data -->
+        <fileSet>
+            <directory>data</directory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>
